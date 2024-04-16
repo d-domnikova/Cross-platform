@@ -44,12 +44,12 @@
             </div>
             <div class="mt-5 h-0 flex-1 overflow-y-auto">
                 <nav class="space-y-1 px-2">
-                    <a th:replace="~{fragments/sidebar-buttons :: mobile-button(link='#', title='Dashboard', menuItem='dashboard', icon='Dashboard')}"></a>
-                    <a th:replace="~{fragments/sidebar-buttons :: mobile-button(link='#', title='Team', menuItem='team', icon='Team')}"></a>
-                    <a th:replace="~{fragments/sidebar-buttons :: mobile-button(link='#', title='Projects', menuItem='projects', icon='Projects')}"></a>
-                    <a th:replace="~{fragments/sidebar-buttons :: mobile-button(link='#', title='Calendar', menuItem='calendar', icon='Calendar')}"></a>
-                    <a th:replace="~{fragments/sidebar-buttons :: mobile-button(link='#', title='Documents', menuItem='documents', icon='Documents')}"></a>
-                    <a th:replace="~{fragments/sidebar-buttons :: mobile-button(link='#', title='Reports', menuItem='reports', icon='Reports')}"></a>
+                    <a th:replace="~{fragments/sidebar-buttons :: mobile-button(link=@{/}, title='Dashboard', menuItem='dashboard', icon='Dashboard')}"></a>
+                    <a th:replace="~{fragments/sidebar-buttons :: mobile-button(link=@{/team}, title='Team', menuItem='team', icon='Team')}"></a>
+                    <a th:replace="~{fragments/sidebar-buttons :: mobile-button(link=@{/projects}, title='Projects', menuItem='projects', icon='Projects')}"></a>
+                    <a th:replace="~{fragments/sidebar-buttons :: mobile-button(link=@{/calendar}, title='Calendar', menuItem='calendar', icon='Calendar')}"></a>
+                    <a th:replace="~{fragments/sidebar-buttons :: mobile-button(link=@{/documents}, title='Documents', menuItem='documents', icon='Documents')}"></a>
+                    <a th:replace="~{fragments/sidebar-buttons :: mobile-button(link=@{/reports}, title='Reports', menuItem='reports', icon='Reports')}"></a>
                 </nav>
             </div>
         </div>
@@ -69,12 +69,12 @@
         </div>
         <div class="mt-5 flex flex-grow flex-col">
             <nav class="flex-1 space-y-1 px-2 pb-4">
-                <a th:replace="~{fragments/sidebar-buttons :: desktop-button(link='#', title='Dashboard', menuItem='dashboard', icon='Dashboard')}"></a>
-                <a th:replace="~{fragments/sidebar-buttons :: desktop-button(link='#', title='Team', menuItem='team', icon='Team')}"></a>
-                <a th:replace="~{fragments/sidebar-buttons :: desktop-button(link='#', title='Projects', menuItem='projects', icon='Projects')}"></a>
-                <a th:replace="~{fragments/sidebar-buttons :: desktop-button(link='#', title='Calendar', menuItem='calendar', icon='Calendar')}"></a>
-                <a th:replace="~{fragments/sidebar-buttons :: desktop-button(link='#', title='Documents', menuItem='documents', icon='Documents')}"></a>
-                <a th:replace="~{fragments/sidebar-buttons :: desktop-button(link='#', title='Reports', menuItem='reports', icon='Reports')}"></a>
+                <a th:replace="~{fragments/sidebar-buttons :: desktop-button(link=@{/}, title='Dashboard', menuItem='dashboard', icon='Dashboard')}"></a>
+                <a th:replace="~{fragments/sidebar-buttons :: desktop-button(link=@{/team}, title='Team', menuItem='team', icon='Team')}"></a>
+                <a th:replace="~{fragments/sidebar-buttons :: desktop-button(link=@{/projects}, title='Projects', menuItem='projects', icon='Projects')}"></a>
+                <a th:replace="~{fragments/sidebar-buttons :: desktop-button(link=@{/calendar}, title='Calendar', menuItem='calendar', icon='Calendar')}"></a>
+                <a th:replace="~{fragments/sidebar-buttons :: desktop-button(link=@{/documents}, title='Documents', menuItem='documents', icon='Documents')}"></a>
+                <a th:replace="~{fragments/sidebar-buttons :: desktop-button(link=@{/reports}, title='Reports', menuItem='reports', icon='Reports')}"></a>
             </nav>
         </div>
     </div>

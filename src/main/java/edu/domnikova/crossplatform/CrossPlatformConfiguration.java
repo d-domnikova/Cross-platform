@@ -6,7 +6,7 @@ import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 @Configuration
-public class CrossPlatform03Configuration {
+public class CrossPlatformConfiguration {
 
     @Bean
     public ITemplateResolver svgTemplateResolver() {
