@@ -1,4 +1,4 @@
-package edu.domnikova.crossplatform.dasboard;
+package edu.domnikova.crossplatform.reviews;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/")
-public class DashboardController {
+@RequestMapping("/reviews")
+public class ReviewsController {
 
     @GetMapping
-    public String dashboard (Model model){
-        return "dashboard/dashboard";
+    public String reviews (Model model){
+        return "reviews/reviews";
     }
 }
