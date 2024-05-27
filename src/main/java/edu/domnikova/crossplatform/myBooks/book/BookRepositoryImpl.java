@@ -1,4 +1,4 @@
-package edu.domnikova.crossplatform.book;
+package edu.domnikova.crossplatform.myBooks.book;
 
 import io.github.wimdeblauwe.jpearl.UniqueIdGenerator;
 

@@ -1,4 +1,4 @@
-package edu.domnikova.crossplatform.book;
+package edu.domnikova.crossplatform.myBooks.book;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
