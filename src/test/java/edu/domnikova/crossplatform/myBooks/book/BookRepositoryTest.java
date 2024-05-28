@@ -46,12 +46,19 @@ class BookRepositoryTest {
     @Test
     void testSaveBook() {
         BookId id = repository.nextId();
-        repository.save(new Book(id));
+        repository.save(new Book(id,
+                new Title("The Perks of Being a Wallflower"),
+                new Author("Stephen Chbosky"),
+                Language.ENGLISH,
+                AgeRating.PG_13));
 
         entityManager.flush();
 
-        UUID idInDb = jdbcTemplate.queryForObject("SELECT id FROM tt_books", UUID.class);
-        assertThat(idInDb).isEqualTo(id.getId());
+        assertThat(jdbcTemplate.queryForObject("SELECT id FROM tt_books", UUID.class)).isEqualTo(id.getId());
+        assertThat(jdbcTemplate.queryForObject("SELECT title FROM tt_books", String.class)).isEqualTo("The Perks of Being a Wallflower");
+        assertThat(jdbcTemplate.queryForObject("SELECT author FROM tt_books", String.class)).isEqualTo("Stephen Chbosky");
+        assertThat(jdbcTemplate.queryForObject("SELECT language FROM tt_books", Language.class)).isEqualTo(Language.ENGLISH);
+        assertThat(jdbcTemplate.queryForObject("SELECT age_rating FROM tt_books", AgeRating.class)).isEqualTo(AgeRating.PG_13);
     }
 
     @TestConfiguration
