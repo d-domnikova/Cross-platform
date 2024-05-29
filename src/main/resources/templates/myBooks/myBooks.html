@@ -23,42 +23,20 @@
                         <table class="min-w-full">
                             <thead>
                             <tr>
-                                <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Title
-                                </th>
-                                <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Author
-                                </th>
-                                <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Language
-                                </th>
-                                <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                    Age Rating
-                                </th>
-                                <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
+                                <th th:replace="~{fragments/table :: header(#{books.title})}"></th>
+                                <th th:replace="~{fragments/table :: header(#{books.author})}"></th>
+                                <th th:replace="~{fragments/table :: header(#{books.language})}"></th>
+                                <th th:replace="~{fragments/table :: header(#{books.ageRating})}"></th>
+                                <th th:replace="~{fragments/table :: header('')}"></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr class="bg-white" th:each="book :${books}">
-                                <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900"
-                                    th:text="${book.title}">
-                                    The Perks of Being a Wallflower
-                                </td>
-                                <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500"
-                                    th:text="${book.author}">
-                                    Stephen Chbosky
-                                </td>
-                                <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500"
-                                    th:text="${book.language}">
-                                    English
-                                </td>
-                                <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500"
-                                    th:text="${book.ageRating}">
-                                    PG_13
-                                </td>
-                                <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                                    <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                                </td>
+                            <tr class="bg-white" th:each="user : ${books}">
+                                <td th:replace="~{fragments/table :: data(contents=${books.title},primary=true)}"></td>
+                                <td th:replace="~{fragments/table :: data(${books.author})}"></td>
+                                <td th:replace="~{fragments/table :: data(${books.language})}"></td>
+                                <td th:replace="~{fragments/table :: data(${books.ageRating})}"></td>
+                                <td th:replace="~{fragments/table :: dataWithLink(#{edit}, '#')}"></td>
                             </tr>
                             </tbody>
                         </table>
