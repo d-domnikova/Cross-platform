@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.testcontainers.shaded.com.google.common.collect.ImmutableSet;
 
 @Service
 @Transactional
@@ -26,5 +27,10 @@ public class BookServiceImpl implements BookService{
     @Override
     public Page<Book> getBooks(Pageable pageable) {
         return repository.findAll(pageable);
+    }
+
+    @Override
+    public ImmutableSet<Book> getAllBooks() {
+        return ImmutableSet.copyOf(repository.findAll());
     }
 }
