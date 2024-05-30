@@ -5,6 +5,8 @@ import io.github.wimdeblauwe.jpearl.UniqueIdGenerator;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
@@ -27,4 +29,9 @@ public class CrossPlatformConfiguration {
         return new InMemoryUniqueIdGenerator();
     }
 
+    @Bean
+    @RequestScope
+    public ServletUriComponentsBuilder urlBuilder() {
+        return ServletUriComponentsBuilder.fromCurrentRequest();
+    }
 }
