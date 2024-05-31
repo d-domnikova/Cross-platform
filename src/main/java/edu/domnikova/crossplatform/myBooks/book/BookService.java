@@ -8,4 +8,5 @@ public interface BookService {
     Book createBook(CreateBookParameters parameters);
     Page<Book> getBooks(Pageable pageable);
     ImmutableSet<Book> getAllBooks();
+    boolean BookWithTitleExist(Title title);
 }

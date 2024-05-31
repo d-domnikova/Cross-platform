@@ -33,4 +33,9 @@ public class BookServiceImpl implements BookService{
     public ImmutableSet<Book> getAllBooks() {
         return ImmutableSet.copyOf(repository.findAll());
     }
+
+    @Override
+    public boolean BookWithTitleExist(Title title) {
+        return repository.existsByTitle(title);
+    }
 }
