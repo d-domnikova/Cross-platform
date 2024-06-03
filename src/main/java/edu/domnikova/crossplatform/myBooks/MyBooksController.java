@@ -1,18 +1,13 @@
 package edu.domnikova.crossplatform.myBooks;
 
-import edu.domnikova.crossplatform.myBooks.book.AgeRating;
-import edu.domnikova.crossplatform.myBooks.book.BookService;
-import edu.domnikova.crossplatform.myBooks.book.Language;
+import edu.domnikova.crossplatform.myBooks.book.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -53,5 +48,18 @@ public class MyBooksController {
         }
         service.createBook(formData.bookParameters());
         return "redirect:/myBooks";
+    }
+
+    @GetMapping("/{id}")
+    public String editTeamMemberForm(@PathVariable("id") BookId bookId, Model model) {
+        Book book = service
+                .getBook(bookId)
+                .orElseThrow(() -> new BookNotFoundException(bookId));
+        model.addAttribute("book", EditBookFromData.fromBook(book));
+        model.addAttribute("languages", List.of(Language.UKRAINIAN, Language.ENGLISH, Language.FRENCH,
+                                                            Language.GERMAN, Language.ITALIAN, Language.JAPANESE, Language.OTHER));
+        model.addAttribute("ageRatings", List.of(AgeRating.G, AgeRating.PG, AgeRating.PG_13, AgeRating.R));
+        model.addAttribute("editMode", EditMode.UPDATE);
+        return "myBooks/addBook";
     }
 }

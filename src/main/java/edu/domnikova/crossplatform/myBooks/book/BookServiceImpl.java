@@ -1,10 +1,14 @@
 package edu.domnikova.crossplatform.myBooks.book;
 
+import edu.domnikova.crossplatform.myBooks.EditBookParameters;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.testcontainers.shaded.com.google.common.collect.ImmutableSet;
+
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -30,6 +34,11 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    public Optional<Book> getBook(BookId bookId) {
+        return repository.findById(bookId);
+    }
+
+    @Override
     public ImmutableSet<Book> getAllBooks() {
         return ImmutableSet.copyOf(repository.findAll());
     }
@@ -37,5 +46,17 @@ public class BookServiceImpl implements BookService{
     @Override
     public boolean BookWithTitleExist(Title title) {
         return repository.existsByTitle(title);
+    }
+
+    @Override
+    public Book EditBook(BookId bookId, EditBookParameters bookParameters) {
+        var book = repository
+                .findById(bookId)
+                .orElseThrow(() -> new BookNotFoundException(bookId));
+        if (bookParameters.getVersion() != book.getVersion()) {
+            throw new ObjectOptimisticLockingFailureException(Book.class, book.getId().asString());
+        }
+        bookParameters.update(book);
+        return book;
     }
 }

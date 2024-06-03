@@ -1,13 +1,12 @@
 package edu.domnikova.crossplatform.myBooks.book;
 
-import io.github.wimdeblauwe.jpearl.AbstractEntity;
-
+import io.github.wimdeblauwe.jpearl.AbstractVersionedEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tt_books")
-public class Book extends AbstractEntity<BookId> {
+public class Book extends AbstractVersionedEntity<BookId> {
     @NotNull
     @Convert(converter = TitleAttributeConverter.class)
     private Title title;
@@ -46,5 +45,21 @@ public class Book extends AbstractEntity<BookId> {
 
     public AgeRating getAgeRating() {
         return ageRating;
+    }
+
+    public void setTitle(Title title) {
+        this.title = title;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+
+    public void setAgeRating(AgeRating ageRating) {
+        this.ageRating = ageRating;
     }
 }
