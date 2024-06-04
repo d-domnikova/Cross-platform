@@ -13,5 +13,5 @@ public interface BookService {
     Optional<Book> getBook(BookId bookId);
     ImmutableSet<Book> getAllBooks();
     boolean BookWithTitleExist(Title title);
-    Book EditBook(BookId bookId, EditBookParameters editBookParameters);
+    Book editBook(BookId bookId, EditBookParameters editBookParameters);
 }

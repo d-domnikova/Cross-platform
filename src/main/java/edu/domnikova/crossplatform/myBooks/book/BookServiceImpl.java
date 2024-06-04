@@ -49,7 +49,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public Book EditBook(BookId bookId, EditBookParameters bookParameters) {
+    public Book editBook(BookId bookId, EditBookParameters bookParameters) {
         var book = repository
                 .findById(bookId)
                 .orElseThrow(() -> new BookNotFoundException(bookId));

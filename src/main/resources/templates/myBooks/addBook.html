@@ -12,127 +12,25 @@
 <div layout:fragment="page-content">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <h1 class="text-2xl font-semibold text-gray-900"
-            th:text="#{books.create}">Add book</h1>
+            th:text="${editMode?.name() == 'UPDATE'}?#{books.edit}:#{books.create}">Add book</h1>
     </div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div class="py-4">
             <div class="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
                 <form id="user-form"
                       th:object="${book}"
-                      th:action="@{/myBooks/create}"
+                      th:action="${editMode?.name()=='UPDATE'}?@{/myBooks/{id}(id=${book.id})}:@{/myBooks/create}"
                       method="post">
                     <div>
                         <div th:replace="fragments/forms :: fielderrors"></div>
                         <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-                            <!-- tag::title[] -->
-                            <div class="sm:col-span-3">
-                                <label for="title" class="block text-sm font-medium text-gray-700"
-                                       th:text="#{books.title}">
-                                    Title
-                                </label>
-                                <div class="mt-1 relative rounded-md shadow-sm">
-                                    <input id="title"
-                                           type="text"
-                                           th:field="*{title}"
-                                           class="shadow-sm block w-full sm:text-sm border-gray-300 rounded-md"
-                                           th:classappend="${#fields.hasErrors('title')?'border-red-300 focus:border-red-300 focus:ring-red-500':'focus:ring-purple-500 focus:border-purple-500'}">
-                                    <div th:if="${#fields.hasErrors('title')}"
-                                         class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                        <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd"
-                                                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                  clip-rule="evenodd"/>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <p th:if="${#fields.hasErrors('title')}"
-                                   th:text="${#strings.listJoin(#fields.errors('title'), ' ')}"
-                                   class="mt-2 text-sm text-red-600" id="title-error">Title validation error message(s).</p>
-                            </div>
-                            <!-- end::title[] -->
+                            <input type="hidden" th:field="*{version}" th:if="${editMode?.name() == 'UPDATE'}">
 
-                            <!-- tag::author[] -->
-                            <div class="sm:col-span-3">
-                                <label for="author" class="block text-sm font-medium text-gray-700"
-                                       th:text="#{books.author}">
-                                    Last name
-                                </label>
-                                <div class="mt-1 relative rounded-md shadow-sm">
-                                    <input id="author"
-                                           type="text"
-                                           th:field="*{author}"
-                                           class="shadow-sm block w-full sm:text-sm border-gray-300 rounded-md"
-                                           th:classappend="${#fields.hasErrors('author')?'border-red-300 focus:border-red-300 focus:ring-red-500':'focus:ring-purple-500 focus:border-purple-500'}">
-                                    <div th:if="${#fields.hasErrors('author')}"
-                                         class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                        <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd"
-                                                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                                  clip-rule="evenodd"/>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <p th:if="${#fields.hasErrors('author')}"
-                                   th:text="${#strings.listJoin(#fields.errors('author'), ' ')}"
-                                   class="mt-2 text-sm text-red-600" id="author-error">Author validation error message(s).</p>
-                            </div>
-                            <!-- end::author[] -->
+                            <div th:replace="~{fragments/forms :: textinput(#{books.title}, 'title', 'sm:col-span-3')}"></div>
+                            <div th:replace="~{fragments/forms :: textinput(#{books.author}, 'author', 'sm:col-span-3')}"></div>
+                            <div th:replace="~{fragments/forms :: radioInput(#{books.language}, 'Language', ${languages}, 'sm:col-span-6')}"></div>
+                            <div th:replace="~{fragments/forms :: radioInput(#{books.ageRating}, 'AgeRating', ${ageRatings}, 'sm:col-span-6')}"></div>
 
-                            <!-- tag::language[] -->
-                            <div class="sm:col-span-6">
-                                <label class="block text-sm font-medium text-gray-700"
-                                       th:text="#{books.language}">
-                                    Language
-                                </label>
-                                <div>
-                                    <th:block th:each="possibleLanguage,iter : ${languages}">
-                                        <input type="radio"
-                                               th:id="${'language-'+possibleLanguage}"
-                                               th:field="*{language}"
-                                               th:value="${possibleLanguage}"
-                                               class="mr-1 focus:ring-purple-500 h-4 w-4 text-purple-500 border-gray-300"
-                                               th:classappend="${iter.index > 0 ?'ml-4':''}"
-                                        >
-                                        <label th:for="${'language-'+possibleLanguage}"
-                                               th:text="#{'Language.'+${possibleLanguage.name()}}"
-                                               class="text-sm font-medium text-gray-700">
-                                        </label>
-
-                                    </th:block>
-                                    <p th:if="${#fields.hasErrors('language')}"
-                                       th:text="${#strings.listJoin(#fields.errors('language'), ' ')}"
-                                       class="mt-2 text-sm text-red-600" id="language-error">Language validation error message(s).</p>
-                                </div>
-                            </div>
-                            <!-- end::language[] -->
-
-                            <!-- tag::ageRating[] -->
-                            <div class="sm:col-span-6">
-                                <label class="block text-sm font-medium text-gray-700"
-                                       th:text="#{books.ageRating}">
-                                    Age Rating
-                                </label>
-                                <div>
-                                    <th:block th:each="possibleRating,iter : ${ageRatings}">
-                                        <input type="radio"
-                                               th:id="${'ageRating-'+possibleRating}"
-                                               th:field="*{ageRating}"
-                                               th:value="${possibleRating}"
-                                               class="mr-1 focus:ring-purple-500 h-4 w-4 text-purple-500 border-gray-300"
-                                               th:classappend="${iter.index > 0 ?'ml-4':''}"
-                                        >
-                                        <label th:for="${'ageRating-'+possibleRating}"
-                                               th:text="#{'AgeRating.'+${possibleRating.name()}}"
-                                               class="text-sm font-medium text-gray-700">
-                                        </label>
-
-                                    </th:block>
-                                    <p th:if="${#fields.hasErrors('ageRating')}"
-                                       th:text="${#strings.listJoin(#fields.errors('ageRating'), ' ')}"
-                                       class="mt-2 text-sm text-red-600" id="ageRating-error">Age Rating validation error message(s).</p>
-                                </div>
-                            </div>
-                            <!-- end::language[] -->
                             <div class="sm:col-span-2"></div>
                         </div>
                     </div>
@@ -148,7 +46,7 @@
                             <span class="ml-3 inline-flex rounded-md shadow-sm">
                                 <button type="submit"
                                         class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-                                        th:text="#{save}">
+                                        th:text="${editMode?.name() == 'UPDATE'}?#{save}:#{add}">>
                                     Save
                                 </button>
                             </span>

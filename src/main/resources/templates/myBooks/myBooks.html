@@ -33,7 +33,7 @@
                                 <td th:replace="~{fragments/table :: data(contents=${book.author.asString()},hideOnMobile=true)}"></td>
                                 <td th:replace="~{fragments/table :: data(contents=${book.language},hideOnMobile=true)}"></td>
                                 <td th:replace="~{fragments/table :: data(contents=${book.ageRating},hideOnMobile=true)}"></td>
-                                <td th:replace="~{fragments/table :: dataWithLink(#{books.edit}, @{'/myBooks/'+ ${book.id.asString()}})}"></td>
+                                <td th:replace="~{fragments/table :: dataWithLink(#{edit}, @{'/myBooks/'+ ${book.id.asString()}})}"></td>
                             </tr>
                             </tbody>
                         </table>

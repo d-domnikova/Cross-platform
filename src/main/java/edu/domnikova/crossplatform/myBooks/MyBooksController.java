@@ -30,20 +30,16 @@ public class MyBooksController {
     @GetMapping("/create")
     public String createBookForm(Model model){
         model.addAttribute("book", new CreateBookFromData());
-        model.addAttribute("languages", List.of(Language.UKRAINIAN, Language.ENGLISH, Language.FRENCH,
-                                                            Language.GERMAN, Language.ITALIAN, Language.JAPANESE, Language.OTHER));
-        model.addAttribute("ageRatings", List.of(AgeRating.G, AgeRating.PG, AgeRating.PG_13, AgeRating.R));
+        modelAddEnumAttributes(model);
         return "myBooks/addBook";
     }
 
     @PostMapping("/create")
-    public String createBook(@Validated(BookValidationGroupSequence.class)
+    public String createBook(@Validated(CreateBookValidationGroupSequence.class)
                                  @ModelAttribute("book") CreateBookFromData formData,
                              BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("languages", List.of(Language.UKRAINIAN, Language.ENGLISH, Language.FRENCH,
-                                                                Language.GERMAN, Language.ITALIAN, Language.JAPANESE, Language.OTHER));
-            model.addAttribute("ageRatings", List.of(AgeRating.G, AgeRating.PG, AgeRating.PG_13, AgeRating.R));
+            modelAddEnumAttributes(model);
             return "myBooks/addBook";
         }
         service.createBook(formData.bookParameters());
@@ -56,10 +52,28 @@ public class MyBooksController {
                 .getBook(bookId)
                 .orElseThrow(() -> new BookNotFoundException(bookId));
         model.addAttribute("book", EditBookFromData.fromBook(book));
+        modelAddEnumAttributes(model);
+        model.addAttribute("editMode", EditMode.UPDATE);
+        return "myBooks/addBook";
+    }
+
+    @PostMapping("/{id}")
+    public String editTeamMember(@PathVariable("id") BookId bookId,
+                                 @Validated(EditBookValidationGroupSequence.class)
+                                 @ModelAttribute("book") EditBookFromData formData,
+                                 BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            modelAddEnumAttributes(model);
+            model.addAttribute("editMode", EditMode.UPDATE);
+            return "myBooks/addBook";
+        }
+        service.editBook(bookId, formData.toParameters());
+        return "redirect:/myBooks";
+    }
+
+    public void modelAddEnumAttributes(Model model){
         model.addAttribute("languages", List.of(Language.UKRAINIAN, Language.ENGLISH, Language.FRENCH,
                                                             Language.GERMAN, Language.ITALIAN, Language.JAPANESE, Language.OTHER));
         model.addAttribute("ageRatings", List.of(AgeRating.G, AgeRating.PG, AgeRating.PG_13, AgeRating.R));
-        model.addAttribute("editMode", EditMode.UPDATE);
-        return "myBooks/addBook";
     }
 }
