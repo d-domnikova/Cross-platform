@@ -14,4 +14,5 @@ public interface BookService {
     ImmutableSet<Book> getAllBooks();
     boolean BookWithTitleExist(Title title);
     Book editBook(BookId bookId, EditBookParameters editBookParameters);
+    void deleteBook(BookId bookId);
 }

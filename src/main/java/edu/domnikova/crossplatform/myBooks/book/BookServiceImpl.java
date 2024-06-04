@@ -59,4 +59,9 @@ public class BookServiceImpl implements BookService{
         bookParameters.update(book);
         return book;
     }
+
+    @Override
+    public void deleteBook(BookId bookId) {
+        repository.deleteById(bookId);
+    }
 }

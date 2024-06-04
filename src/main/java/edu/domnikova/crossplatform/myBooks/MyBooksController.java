@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -68,6 +69,17 @@ public class MyBooksController {
             return "myBooks/addBook";
         }
         service.editBook(bookId, formData.toParameters());
+        return "redirect:/myBooks";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String deleteBook(@PathVariable("id") BookId bookId,
+                             RedirectAttributes redirectAttributes) {
+        Book book = service.getBook(bookId)
+                .orElseThrow(() -> new BookNotFoundException(bookId));
+        service.deleteBook(bookId);
+        redirectAttributes.addFlashAttribute("deletedBookTitle",
+                book.getTitle());
         return "redirect:/myBooks";
     }
 
